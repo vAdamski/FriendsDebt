@@ -1,4 +1,10 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+USER root
+RUN apt-get update \
+    && apt-get install --yes --no-install-recommends libgssapi-krb5-2 \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /home/app/.aspnet/DataProtection-Keys \
+    && chown -R $APP_UID:$APP_UID /home/app/.aspnet
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
@@ -8,6 +14,9 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["FriendsDebt.Api/FriendsDebt.Api.csproj", "FriendsDebt.Api/"]
+COPY ["FriendsDebt.Application/FriendsDebt.Application.csproj", "FriendsDebt.Application/"]
+COPY ["FriendsDebt.Domain/FriendsDebt.Domain.csproj", "FriendsDebt.Domain/"]
+COPY ["FriendsDebt.Persistence/FriendsDebt.Persistence.csproj", "FriendsDebt.Persistence/"]
 RUN dotnet restore "FriendsDebt.Api/FriendsDebt.Api.csproj"
 COPY . .
 WORKDIR "/src/FriendsDebt.Api"
