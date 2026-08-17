@@ -87,7 +87,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -f ./FriendshipDebt.Api/Dockerfile \
+            -f FriendsDebt.Api/Dockerfile \
             -t "$IMAGE_NAME:${GITHUB_SHA}" \
             -t "$IMAGE_NAME:latest" \
             .
