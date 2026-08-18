@@ -17,10 +17,12 @@ var app = builder.Build();
 
 await app.ApplyDatabaseMigrationsAsync();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerConfiguration();
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseSwaggerConfiguration();
+// }
+
+app.UseSwaggerConfiguration();
 
 app.UseExceptionHandler();
 
